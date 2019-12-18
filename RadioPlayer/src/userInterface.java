@@ -2,31 +2,33 @@
 //could just import javax.swing.* and java.awt.* etc..
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
 import javax.swing.JComboBox;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.awt.event.ActionEvent;
 
+
 public class userInterface{
-	// Sets a default choice
-	String userChoice = "http://fm02-ice.stream.khz.se/fm02_mp3";
-	String userChoose = "Bandit Rock";
+		//Sets a default choice
+		String userChoice = "http://fm02-ice.stream.khz.se/fm02_mp3";
+		String userChoose = "Bandit Rock";
 	
 	public userInterface(){
 		JFrame guiFrame = new JFrame();
 		//Options for the JComboBox
 		String[] radioOptions = {"Bandit Rock", "StarFM", "Pirate Rock"
 				,"Gamla Favoriter", "One Hit Wonders", "Rix Fm"};
+		
+		
 		//Make sure the program exits when the frame closes
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//Sets title of app
@@ -40,7 +42,7 @@ public class userInterface{
 		//The first JPanel contains a JLabel and JCombobox
 		final JPanel comboPanel = new JPanel();
 		JLabel comboLbl = new JLabel("Radiokanaler:");
-		JComboBox radio = new JComboBox(radioOptions);
+		JComboBox<?> radio = new JComboBox<Object>(radioOptions);
 		comboPanel.add(comboLbl);
 		comboPanel.add(radio);
 		//Adds two buttons for start/stop
@@ -52,9 +54,39 @@ public class userInterface{
 		guiFrame.add(comboPanel, BorderLayout.NORTH);
 		guiFrame.add(radioPlay,BorderLayout.WEST);
 		guiFrame.add(radioStop,BorderLayout.EAST);
-				
 		//make sure the JFrame is visible
 		guiFrame.setVisible(true);
+		guiFrame.setFocusable(true);
+		//Add KeyListener to form to play "Easter egg" ;-)
+		guiFrame.addKeyListener(new KeyListener(){
+            @Override
+               public void keyPressed(KeyEvent e) {
+                   if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                       	
+                	   try
+                	    {
+                	        Clip clip = AudioSystem.getClip();
+                	        clip.open(AudioSystem.getAudioInputStream(new URL("https://wavlist.com/wav/sw6-destiny.wav")));
+                	        clip.start();
+                	    }
+                	    catch (Exception exc)
+                	    {
+                	        exc.printStackTrace(System.out);
+                	    }
+                       	
+                   }
+               }
+
+               @Override
+               public void keyTyped(KeyEvent e) {
+                   // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+               }
+
+               @Override
+               public void keyReleased(KeyEvent e) {
+                   // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+               }
+       });
 			
 			//The ActionListener class is used to handle the
 			//event that happens when the user clicks the start button.
@@ -64,10 +96,12 @@ public class userInterface{
 				@Override
 				public void actionPerformed(ActionEvent event){
 					//Starts a new thread for playing music
+					
 					 Music music = new Music();
 					 music.start();
 					 // Handle event when user clicks stop
 					 radioStop.addActionListener(new ActionListener(){
+							@SuppressWarnings("deprecation")
 							@Override
 							public void actionPerformed(ActionEvent event){
 								//Kills the playing thread
@@ -76,6 +110,7 @@ public class userInterface{
 					});
 					 // Handle different choices in ComboBox and sets new stream to be played
 					 radio.addActionListener(new ActionListener() {
+							@SuppressWarnings("deprecation")
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								//Gets users choice from ComboBox
@@ -108,9 +143,12 @@ public class userInterface{
 						});
 				}
 			});
+			
 	}
-	
-class Music extends Thread{	
+	class Music extends Thread{	
+		/**
+		 * This calls up to start the mediaplayer in its own thread
+		 */
 		public void run(){  
 				try{
 				// Calls the play action if media player and handles exceptions 	
@@ -124,4 +162,5 @@ class Music extends Thread{
 			
 		}
 	}
-}
+}	
+
