@@ -4,14 +4,9 @@
  * @author Pelle Löfstrand
  *
  */
-
-
 public class RadioPlayer {
-		
 	public static void main(String[] args) {
 		// Calls the UI 
 		new userInterface();
-		
 	}
-
 }

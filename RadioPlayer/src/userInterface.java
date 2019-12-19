@@ -2,10 +2,13 @@
 //could just import javax.swing.* and java.awt.* etc..
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+
 import javazoom.jl.decoder.JavaLayerException;
 import javax.swing.JComboBox;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
@@ -21,9 +24,12 @@ public class userInterface{
 		//Sets a default choice
 		String userChoice = "http://fm02-ice.stream.khz.se/fm02_mp3";
 		String userChoose = "Bandit Rock";
-	
+		
 	public userInterface(){
+		//Sets radioIcon
+	    ImageIcon img = new ImageIcon("icon.png");
 		JFrame guiFrame = new JFrame();
+		
 		//Options for the JComboBox
 		String[] radioOptions = {"Bandit Rock", "StarFM", "Pirate Rock"
 				,"Gamla Favoriter", "One Hit Wonders", "Rix Fm"};
@@ -35,7 +41,8 @@ public class userInterface{
 		guiFrame.setTitle("RadioPlayer");
 		//Sets size
 		guiFrame.setSize(300,100);
-		
+		//Adds radio icon
+		guiFrame.setIconImage(img.getImage());
 		//This will center the JFrame in the middle of the screen
 		guiFrame.setLocationRelativeTo(null);
 	
@@ -50,7 +57,7 @@ public class userInterface{
 		JButton radioStop = new JButton( "< Stop >");
 		
 		//The JFrame uses the BorderLayout layout manager.
-		//Put the two JPanels and JButtons in different areas.
+		//Put the  JPanel and JButtons in different areas.
 		guiFrame.add(comboPanel, BorderLayout.NORTH);
 		guiFrame.add(radioPlay,BorderLayout.WEST);
 		guiFrame.add(radioStop,BorderLayout.EAST);
@@ -62,41 +69,31 @@ public class userInterface{
             @Override
                public void keyPressed(KeyEvent e) {
                    if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                       	
-                	   try
-                	    {
+                       	try{
                 	        Clip clip = AudioSystem.getClip();
                 	        clip.open(AudioSystem.getAudioInputStream(new URL("https://wavlist.com/wav/sw6-destiny.wav")));
                 	        clip.start();
-                	    }
-                	    catch (Exception exc)
-                	    {
+                	    }catch (Exception exc){
                 	        exc.printStackTrace(System.out);
                 	    }
-                       	
                    }
                }
-
                @Override
                public void keyTyped(KeyEvent e) {
                    // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                }
-
                @Override
                public void keyReleased(KeyEvent e) {
                    // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                }
        });
-			
+		
 			//The ActionListener class is used to handle the
 			//event that happens when the user clicks the start button.
-			
-			
 			radioPlay.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent event){
 					//Starts a new thread for playing music
-					
 					 Music music = new Music();
 					 music.start();
 					 // Handle event when user clicks stop
@@ -139,15 +136,13 @@ public class userInterface{
 									break;
 									}
 							}
-							
 						});
 				}
 			});
-			
 	}
 	class Music extends Thread{	
 		/**
-		 * This calls up to start the mediaplayer in its own thread
+		 * This calls up player to start the mediaplayer in its own thread
 		 */
 		public void run(){  
 				try{
@@ -155,11 +150,9 @@ public class userInterface{
 				player.startRadio(userChoice);
 				}catch ( IOException e ){
 					e.printStackTrace ();
-				}catch ( JavaLayerException e )
-				{
+				}catch ( JavaLayerException e ){
 					e.printStackTrace ();
 				}
-			
 		}
 	}
 }	
