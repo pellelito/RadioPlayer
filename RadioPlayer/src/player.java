@@ -4,14 +4,12 @@ import java.net.URLConnection;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class player  {
 /**
  * 	This gets the chosen station and starts player
- * @param spec a string containing chosen radiostation
+ * @param spec a string containing chosen radio station
  * @throws IOException
  * @throws JavaLayerException
  */
@@ -26,12 +24,11 @@ public class player  {
         Player player = new Player(urlConnection.getInputStream());
         player.play();
 		}catch (Exception e) {              
-			JOptionPane.showMessageDialog(null, "You need Internet connection to work!");
+			JOptionPane.showMessageDialog(null, "Check internet connection, otherwise try another station.");
 			e.printStackTrace();
         }
         
     }
-
 	
 }
 

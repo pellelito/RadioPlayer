@@ -27,7 +27,7 @@ public class userInterface{
 		
 	public userInterface(){
 		//Sets radioIcon
-	    ImageIcon img = new ImageIcon("icon.png");
+	    ImageIcon img = new ImageIcon("src/icon.png");
 		JFrame guiFrame = new JFrame();
 		
 		//Options for the JComboBox
@@ -142,7 +142,7 @@ public class userInterface{
 	}
 	class Music extends Thread{	
 		/**
-		 * This calls up player to start the mediaplayer in its own thread
+		 * This calls up player to start the media player in its own thread
 		 */
 		public void run(){  
 				try{
